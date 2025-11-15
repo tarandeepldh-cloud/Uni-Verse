@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - UniVerse</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/teacher.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.0/dist/tesseract.min.js"></script>
+</head>
+<body>
+    <section id="teacher-dashboard" class="page teacher-theme">
+
+        <!-- TOP NAVBAR -->
+        <nav class="teacher-topnav">
+            <span class="t-title">UniVerse – Teacher Panel</span>
+
+            <div class="t-nav-btns">
+                <button onclick="showTeacherTab('t_home')" class="t-nav-btn active">Home</button>
+                <button onclick="showTeacherTab('t_attendance')" class="t-nav-btn">Attendance</button>
+                <button onclick="showTeacherTab('t_performance')" class="t-nav-btn">Performance</button>
+                <button onclick="showTeacherTab('t_activities')" class="t-nav-btn">Activities</button>
+                <button onclick="showTeacherTab('t_directory')" class="t-nav-btn">Directory</button>
+                <button onclick="showTeacherTab('t_lostfound')" class="t-nav-btn">Lost & Found</button>
+                <button onclick="showTeacherTab('t_ocr')" class="t-nav-btn">OCR Extract</button>
+                <button onclick="showTeacherTab('t_profile')" class="t-nav-btn">Profile</button>
+                <button onclick="returnHome()" class="t-nav-btn logout-btn">Logout</button>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="teacher-main">
+
+            <!-- HOME TAB -->
+            <section id="t_home" class="t-tab active">
+                <h2>Teacher Home</h2>
+                <div class="t-cards">
+                    <div class="t-card">
+                        <div class="t-card-label">Total Students</div>
+                        <div class="t-card-value">32</div>
+                    </div>
+                    <div class="t-card">
+                        <div class="t-card-label">Avg Attendance</div>
+                        <div class="t-card-value">84%</div>
+                    </div>
+                    <div class="t-card">
+                        <div class="t-card-label">Avg Performance</div>
+                        <div class="t-card-value">8.4/10</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ATTENDANCE TAB -->
+            <section id="t_attendance" class="t-tab">
+                <h2>Attendance Manager</h2>
+                <div class="filters">
+                    <select class="filter-select">
+                        <option>Select Class</option>
+                        <option>CSE-2A</option>
+                        <option>CSE-2B</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Select Subject</option>
+                        <option>Programming</option>
+                        <option>Database</option>
+                    </select>
+                    <input type="date" class="filter-select">
+                    <button class="btn btn-primary" onclick="saveAttendance()">Save Attendance</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="t-table">
+                        <tr>
+                            <th>Roll</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>01</td>
+                            <td>Navneet Kumar</td>
+                            <td><button class="att-btn present" onclick="toggleAttendance(this)">Present</button></td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>Rahul Singh</td>
+                            <td><button class="att-btn absent" onclick="toggleAttendance(this)">Absent</button></td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td>Priya Sharma</td>
+                            <td><button class="att-btn present" onclick="toggleAttendance(this)">Present</button></td>
+                        </tr>
+                        <tr>
+                            <td>04</td>
+                            <td>Arjun Patel</td>
+                            <td><button class="att-btn present" onclick="toggleAttendance(this)">Present</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PERFORMANCE TAB -->
+            <section id="t_performance" class="t-tab">
+                <h2>Performance Overview</h2>
+                <div class="chart-container">
+                    <canvas id="t_performanceGraph"></canvas>
+                </div>
+            </section>
+
+            <!-- ACTIVITIES TAB -->
+            <section id="t_activities" class="t-tab">
+                <h2>Manage Activities</h2>
+                <div class="activity-form">
+                    <input type="text" placeholder="Activity Title" class="input-field">
+                    <textarea placeholder="Activity Description" class="input-field"></textarea>
+                    <input type="date" class="input-field">
+                    <button class="btn btn-primary">Upload Activity</button>
+                </div>
+                <div class="activities-list">
+                    <div class="activity-item">
+                        <h3>Science Fair 2025</h3>
+                        <p>Annual science fair exhibition</p>
+                        <span class="activity-date">Date: 2025-02-20</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIRECTORY TAB -->
+            <section id="t_directory" class="t-tab">
+                <h2>Student Directory</h2>
+                <input type="text" class="search-box" placeholder="Search student...">
+
+                <div class="table-container">
+                    <table class="t-table">
+                        <tr>
+                            <th>Roll</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Email</th>
+                        </tr>
+                        <tr>
+                            <td>01</td>
+                            <td>Navneet Kumar</td>
+                            <td>CSE-2A</td>
+                            <td>navneet@university.edu</td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>Rahul Singh</td>
+                            <td>CSE-2A</td>
+                            <td>rahul@university.edu</td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td>Priya Sharma</td>
+                            <td>CSE-2B</td>
+                            <td>priya@university.edu</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- LOST & FOUND TAB -->
+            <section id="t_lostfound" class="t-tab">
+                <h2>Lost & Found Verification</h2>
+                <div class="lf-container">
+                    <div class="lf-section">
+                        <h3>Pending Items</h3>
+                        <div class="lf-item">
+                            <span>Wallet – Pending</span>
+                            <button class="verify-btn" onclick="verifyItem(this)">Verify</button>
+                        </div>
+                        <div class="lf-item">
+                            <span>Keys – Pending</span>
+                            <button class="verify-btn" onclick="verifyItem(this)">Verify</button>
+                        </div>
+                    </div>
+
+                    <div class="lf-section">
+                        <h3>Verified Items</h3>
+                        <div class="lf-item verified">
+                            <span>USB – Verified ✔</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OCR EXTRACT TAB -->
+            <section id="t_ocr" class="t-tab">
+                <h2>Extract Marks & Attendance from Image</h2>
+                <div class="ocr-container">
+                    <!-- Upload Section -->
+                    <div class="ocr-card">
+                        <h3>📷 Upload Sheet Image</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="ocrImageInput" accept="image/*" hidden>
+                            <p>Click or drag image here</p>
+                            <small>Supports: JPG, PNG, GIF</small>
+                        </div>
+                        <div id="previewContainer" class="preview-container hidden">
+                            <img id="previewImage" alt="Preview">
+                            <button class="btn btn-secondary" onclick="clearImagePreview()">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Extract Section -->
+                    <div class="ocr-card">
+                        <h3>🔍 Extract Data</h3>
+                        <div class="extract-controls">
+                            <label>
+                                <input type="radio" name="dataType" value="marks" checked> Marks Sheet
+                            </label>
+                            <label>
+                                <input type="radio" name="dataType" value="attendance"> Attendance Register
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" id="extractBtn" onclick="extractDataFromImage()">
+                            Extract Data
+                        </button>
+                        <div id="loadingSpinner" class="loading-spinner hidden">
+                            <div class="spinner"></div>
+                            <p>Extracting text from image...</p>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="ocr-card" id="resultsCard" style="display: none;">
+                        <h3>📊 Extracted Results</h3>
+                        <div id="extractedTable" class="extracted-table"></div>
+                        <div class="table-actions">
+                            <button class="btn btn-primary" onclick="saveExtractedData()">Save to LocalStorage</button>
+                            <button class="btn btn-secondary" onclick="downloadAsCSV()">Download as CSV</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROFILE TAB -->
+            <section id="t_profile" class="t-tab">
+                <h2>Your Profile</h2>
+                <div class="profile-card">
+                    <p><b>Name:</b> <span id="teacherName">Ms. Kaur</span></p>
+                    <p><b>Teacher ID:</b> <span id="teacherId">T001</span></p>
+                    <p><b>Department:</b> Computer Science</p>
+                    <p><b>Experience:</b> 5 years</p>
+                    <p><b>Email:</b> ms.kaur@university.edu</p>
+                </div>
+            </section>
+
+        </main>
+    </section>
+
+    <script src="js/auth.js"></script>
+    <script src="js/teacher.js"></script>
+    <script src="js/teacher-ocr.js"></script>
+</body>
+</html>
